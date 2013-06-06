@@ -1,0 +1,22 @@
+1) Copy the root folder to the hard drive. Record the path (referred to later in this document as PROJECT_HOME)
+	a) owner of this directory can be anyone. Permissions should be set 755 for all directories and 644 for all files.
+	b) There is also a "tmp" directory for log files and the files used during a search. This directory should be writable by the apache group.
+		i) chown -R root:apache tmp/
+		ii) chmod -R 775 tmp/
+2) Edit PROJECT_HOME/config/config.php to reflect the changes appropriate to the installation environment.
+	a) the DS used throughout this file is a platform agnostic way of using a directory separator.
+		i) In a Linux environment, a forward slash "/" can be used instead, for ease of copying and pasting paths.
+		ii) In a Windows environment, a backslash (escaped by another backslash) "\\" can be used. 
+3) Edit your Apache config (or add/edit the alias file) to include the following: (where PROJECT is defined as the root path of the application
+#################################################
+Alias /PROJECT "PROJECT_HOME/public/" 
+
+<Directory "PROJECT_HOME/public/">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+        Order allow,deny
+    Allow from all
+</Directory>
+#################################################
+4) Restart your Apache httpd server.
+5) Test the set up.
