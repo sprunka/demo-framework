@@ -80,7 +80,7 @@ class Tools
      */
     public static function createTextFile($text, $prefix)
     {
-        $tempFile = tempnam(BLAST_TMP_PATH, $prefix);
+        $tempFile = tempnam(TMP_PATH, $prefix);
         $handle = fopen($tempFile, "wb");
         fwrite($handle, $text);
         fclose($handle);
@@ -120,7 +120,7 @@ class Tools
     {
         $howOld = intval($howOld);
         $files = glob($dir . $extPattern, GLOB_BRACE);
-        $logger = new Logger(BLAST_LOG_PATH . "deletions.log");
+        $logger = new Logger(TMP_PATH . "deletions.log");
         foreach ($files as $file) {
             $filedate = date("U", filemtime($file));
             if ((date('U') - $filedate) > $howOld * 60) {

@@ -23,7 +23,7 @@ function setReporting()
 /** Secondary Call Function **/
 function performAction($controller, $action, $queryString = null, $render = 0)
 {
-    
+
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
     $dispatch = new $controllerName($controller, $action);
     $dispatch->render = $render;
@@ -34,13 +34,13 @@ function performAction($controller, $action, $queryString = null, $render = 0)
 function routeURL($url)
 {
     global $routing;
-    
+
     foreach ($routing as $pattern => $result) {
         if (preg_match($pattern, $url)) {
             return preg_replace($pattern, $result, $url);
         }
     }
-    
+
     return ($url);
 }
 
@@ -49,9 +49,9 @@ function callHook()
 {
     global $url;
     global $default;
-    
+
     $queryString = array ();
-    
+
     if (!isset($url)) {
         $controller = $default['controller'];
         $action = $default['action'];
@@ -69,11 +69,11 @@ function callHook()
         }
         $queryString = $urlArray;
     }
-    
+
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
-    
+
     $dispatch = new $controllerName($controller, $action);
-    
+
     if ((int) method_exists($controllerName, $action)) {
         call_user_func_array(array ($dispatch, "beforeAction"), $queryString);
         call_user_func_array(array ($dispatch, $action), $queryString);
@@ -88,14 +88,14 @@ function callHook()
 function __autoload($className)
 {
     $className = ltrim($className, '\\');
-    $fileName = 'library' . DIRECTORY_SEPARATOR;
+    $fileName = 'library' . DS;
     $namespace = '';
     if ($lastNsPos = strripos($className, '\\')) {
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
-        $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+        $fileName = str_replace('\\', DS, $namespace) . DS;
     }
-    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-    
+    $fileName .= str_replace('_', DS, $className) . '.php';
+
     require $fileName;
 }
