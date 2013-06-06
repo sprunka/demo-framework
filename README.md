@@ -8,11 +8,6 @@ It should be PSR compliant up to and including PSR-2. (Though admittedly, there 
 Please feel free to subject it to a peer review and find faults, it's how I can learn.
 Additionally, please feel free to use it a starting point for your own projects that need only the barest of bare bones skeletal frameworks.
 
-As of 2013.06.06, this code has not even been manually tested. I have no idea if it works as-is or not.
-I stripped all of the proprietary code out of a working copy, and added a few sample files.
-It *should* work, but I have not written or run any UnitTests or manual tests. 
-
-
 Thanks.
 
 [![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)][0]  
