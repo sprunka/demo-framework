@@ -1,0 +1,22 @@
+{
+    "name": "sprunka/demo-framework",
+    "description": "A photo 365 project application. Requires user to have a Flickr API key",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sean Prunka",
+            "homepage": "http://about.me/seanprunka",
+            "role": "Creator"
+        }
+    ],
+    "keywords": ["framework", "mvc", "lightweight"],
+    "require": {
+        "php": ">=5.3.14"
+    },
+    "autoload": {
+        "psr-0":
+            {
+                "DEMO": "library/"
+        }
+    }
+}
