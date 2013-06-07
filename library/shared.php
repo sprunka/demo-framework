@@ -89,13 +89,22 @@ function __autoload($className)
 {
     $className = ltrim($className, '\\');
     $fileName = 'library' . DS;
+    $thirdPartyFileName = 'vendor' . DS;
+
     $namespace = '';
     if ($lastNsPos = strripos($className, '\\')) {
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
-        $fileName = str_replace('\\', DS, $namespace) . DS;
+        $fileName .= str_replace('\\', DS, $namespace) . DS;
+        $thirdPartyFileName .= str_replace('\\', DS, $namespace) . DS;
     }
     $fileName .= str_replace('_', DS, $className) . '.php';
-
-    require $fileName;
+    $thirdPartyFileName .= str_replace('_', DS, $className) . '.php';
+    if (file_exists($fileName)) {
+        require $fileName;
+    } elseif (file_exists($thirdPartyFileName)) {
+        require $thirdPartyFileName;
+    } else {
+        throw new Exception("Class: {$className} not autoloaded. Could not find file at {$fileName} or at {$thirdPartyFileName}.");
+    }
 }
