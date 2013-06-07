@@ -31,3 +31,6 @@ define('DONT_RENDER_HEADER', false);
 
 /** not used at this time **/
 define('PAGINATE_LIMIT', '5');
+
+/** Add vendor to the include path **/
+set_include_path(get_include_path().PATH_SEPARATOR.'../vendor/');

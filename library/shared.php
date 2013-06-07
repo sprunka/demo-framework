@@ -96,14 +96,16 @@ function __autoload($className)
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
         $fileName .= str_replace('\\', DS, $namespace) . DS;
-        $thirdPartyFileName .= str_replace('\\', DS, $namespace) . DS;
+        $thirdPartyFileName = str_replace('\\', DS, $namespace) . DS;
     }
     $fileName .= str_replace('_', DS, $className) . '.php';
     $thirdPartyFileName .= str_replace('_', DS, $className) . '.php';
-    if (file_exists($fileName)) {
-        require $fileName;
-    } elseif (file_exists($thirdPartyFileName)) {
-        require $thirdPartyFileName;
+    $file = stream_resolve_include_path($fileName);
+    $vendorFile = stream_resolve_include_path($thirdPartyFileName);
+    if ($file !== false) {
+        require $file;
+    } elseif ($vendorFile !== false) {
+        require $vendorFile;
     } else {
         throw new Exception("Class: {$className} not autoloaded. Could not find file at {$fileName} or at {$thirdPartyFileName}.");
     }
