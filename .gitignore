@@ -1,3 +1,7 @@
+# composer
+vendor/*
+!vendor/Inflection
+
 #################
 ## Eclipse
 #################

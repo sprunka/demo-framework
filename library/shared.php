@@ -23,7 +23,6 @@ function setReporting()
 /** Secondary Call Function **/
 function performAction($controller, $action, $queryString = null, $render = 0)
 {
-
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
     $dispatch = new $controllerName($controller, $action);
     $dispatch->render = $render;
@@ -81,32 +80,5 @@ function callHook()
     } else {
         /* Error Generation Code Here */
         //FIXME: Yeah, I have no error handling.
-    }
-}
-
-/** Autoload any classes that are required **/
-function __autoload($className)
-{
-    $className = ltrim($className, '\\');
-    $fileName = 'library' . DS;
-    $thirdPartyFileName = 'vendor' . DS;
-
-    $namespace = '';
-    if ($lastNsPos = strripos($className, '\\')) {
-        $namespace = substr($className, 0, $lastNsPos);
-        $className = substr($className, $lastNsPos + 1);
-        $fileName .= str_replace('\\', DS, $namespace) . DS;
-        $thirdPartyFileName = str_replace('\\', DS, $namespace) . DS;
-    }
-    $fileName .= str_replace('_', DS, $className) . '.php';
-    $thirdPartyFileName .= str_replace('_', DS, $className) . '.php';
-    $file = stream_resolve_include_path($fileName);
-    $vendorFile = stream_resolve_include_path($thirdPartyFileName);
-    if ($file !== false) {
-        require $file;
-    } elseif ($vendorFile !== false) {
-        require $vendorFile;
-    } else {
-        throw new Exception("Class: {$className} not autoloaded. Could not find file at {$fileName} or at {$thirdPartyFileName}.");
     }
 }
