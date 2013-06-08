@@ -16,7 +16,8 @@
     "autoload": {
         "psr-0":
             {
-                "DEMO": "library/"
+                "DEMO": "library/",
+                "Inflection": "vendor/"
         }
     }
 }
