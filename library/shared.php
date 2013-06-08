@@ -1,8 +1,10 @@
 <?php
+
 use DEMO\Application\Controllers;
 use DEMO\Framework;
 use DEMO\Tools;
 use DEMO\Application\Models;
+use Inflection\Inflection;
 
 /** Check if environment is development and display and/or log errors accortdingly. **/
 function setReporting()
@@ -30,10 +32,8 @@ function performAction($controller, $action, $queryString = null, $render = 0)
 }
 
 /** Routing **/
-function routeURL($url)
+function routeURL($url, $routing)
 {
-    global $routing;
-
     foreach ($routing as $pattern => $result) {
         if (preg_match($pattern, $url)) {
             return preg_replace($pattern, $result, $url);
@@ -44,18 +44,18 @@ function routeURL($url)
 }
 
 /** Main Call Function **/
-function callHook()
+function callHook($url, $default, $routing, Inflection $inflection)
 {
-    global $url;
-    global $default;
-
+    var_dump($url);
+    var_dump($default);
+    
     $queryString = array ();
 
     if (!isset($url)) {
         $controller = $default['controller'];
         $action = $default['action'];
     } else {
-        $url = routeURL($url);
+        $url = routeURL($url, $routing);
         $urlArray = array ();
         $urlArray = explode("/", $url);
         $controller = $urlArray[0];
@@ -71,7 +71,7 @@ function callHook()
 
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
 
-    $dispatch = new $controllerName($controller, $action);
+    $dispatch = new $controllerName($controller, $action, $inflection);
 
     if ((int) method_exists($controllerName, $action)) {
         call_user_func_array(array ($dispatch, "beforeAction"), $queryString);
