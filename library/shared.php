@@ -1,9 +1,6 @@
 <?php
 
 use DEMO\Application\Controllers;
-use DEMO\Framework;
-use DEMO\Tools;
-use DEMO\Application\Models;
 use Inflection\Inflection;
 
 /** Check if environment is development and display and/or log errors accortdingly. **/
@@ -28,10 +25,17 @@ function performAction($controller, $action, $queryString = null, $render = 0)
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
     $dispatch = new $controllerName($controller, $action);
     $dispatch->render = $render;
+
     return call_user_func_array(array ($dispatch, $action), $queryString);
 }
 
-/** Routing **/
+/**
+ * Routing
+ *
+ * @param string $url Current url
+ * @param array $routing Array with regex pattern and replacement
+ * @return string Transformed url
+ */
 function routeURL($url, $routing)
 {
     foreach ($routing as $pattern => $result) {
@@ -43,12 +47,16 @@ function routeURL($url, $routing)
     return ($url);
 }
 
-/** Main Call Function **/
-function callHook($url, $default, $routing, Inflection $inflection)
+/**
+ * Main Call Function
+ *
+ * @param string $url
+ * @param array $default
+ * @param array $routing
+ * @param Inflection $inflection
+ */
+function callHook($url, array $default, array $routing, Inflection $inflection)
 {
-    var_dump($url);
-    var_dump($default);
-    
     $queryString = array ();
 
     if (!isset($url)) {
@@ -71,6 +79,10 @@ function callHook($url, $default, $routing, Inflection $inflection)
 
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
 
+    if (class_exists($controllerName) === false) {
+        return http404('error/http404', $default, $routing, $inflection);
+    }
+
     $dispatch = new $controllerName($controller, $action, $inflection);
 
     if ((int) method_exists($controllerName, $action)) {
@@ -78,7 +90,14 @@ function callHook($url, $default, $routing, Inflection $inflection)
         call_user_func_array(array ($dispatch, $action), $queryString);
         call_user_func_array(array ($dispatch, "afterAction"), $queryString);
     } else {
-        /* Error Generation Code Here */
-        //FIXME: Yeah, I have no error handling.
+        return http404('error/http404', $default, $routing, $inflection);
     }
+}
+
+/**
+ * Issues HTTP 404 header
+ */
+function http404($url = 'error/http404', array $default = array(), array $routing = array(), Inflection $inflection)
+{
+    callHook($url, $default, $routing, $inflection);
 }

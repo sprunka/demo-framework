@@ -14,7 +14,7 @@ define('PROJECT_NAME', 'Demo Framework');
 //Name of Application
 define('PRODUCT_NAME', 'sample');
 //
-define('TMP_PATH','C:' . DS . 'Users' . DS . 'prunkas' . DS . 'Documents' . DS . 'GitHub' . DS . 'demo-framework' . DS . 'tmp');
+define('TMP_PATH', ROOT . DS . 'tmp');
 //Footer message
 define(
     'FOOTER_MESSAGE',
@@ -31,6 +31,3 @@ define('DONT_RENDER_HEADER', false);
 
 /** not used at this time **/
 define('PAGINATE_LIMIT', '5');
-
-/** Add vendor to the include path **/
-set_include_path(get_include_path().PATH_SEPARATOR.'../vendor/');

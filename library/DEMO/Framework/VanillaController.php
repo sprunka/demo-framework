@@ -11,7 +11,7 @@ use Inflection\Inflection;
  * @version 1.0
  *
  */
-class VanillaController
+abstract class VanillaController
 {
     protected $pController;
     protected $pAction;
@@ -31,6 +31,10 @@ class VanillaController
         $this->$model = new $model($inflect);
         $this->pTemplate = new Template($controller, $action);
     }
+
+    abstract public function beforeAction();
+
+    abstract public function afterAction();
 
     public function set($name, $value)
     {
