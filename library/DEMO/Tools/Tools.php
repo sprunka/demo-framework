@@ -11,9 +11,9 @@ class Tools
 
     /**
      * This method should extract a requested var from the superglobal $_POST and perform sanitization if needed.
-     * @param string $key
-     * @param boolean $sanitize Default = FALSE
-     * @param string $sanitizeMethod Default = null
+     * @param string  $key
+     * @param boolean $sanitize       Default = FALSE
+     * @param string  $sanitizeMethod Default = null
      *
      * @return mixed
      */
@@ -25,6 +25,7 @@ class Tools
             } else {
                 $value = $_POST[$key];
             }
+
             return $value;
         } else {
             return null;
@@ -33,7 +34,7 @@ class Tools
 
     /**
      * Sanitizes string input for HTML output
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function sanitizeHTML($text)
@@ -43,7 +44,7 @@ class Tools
 
     /**
      * Sanitizes string input for MySQL output
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function sanitizeMySQL($text)
@@ -53,7 +54,7 @@ class Tools
 
     /**
      * Sanitizes string input for cli output
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function sanitizeShell($cmd)
@@ -74,8 +75,8 @@ class Tools
 
     /**
      * Creates a temporary plain text file
-     * @param string $text File contents
-     * @param string $prefix
+     * @param  string $text   File contents
+     * @param  string $prefix
      * @return string
      */
     public static function createTextFile($text, $prefix)
@@ -84,12 +85,13 @@ class Tools
         $handle = fopen($tempFile, "wb");
         fwrite($handle, $text);
         fclose($handle);
+
         return $tempFile;
     }
 
     /**
      * Reads a plain text file and returns the contents.
-     * @param string $filename
+     * @param  string $filename
      * @return string
      */
     public static function readTextFile($filename)
@@ -99,6 +101,7 @@ class Tools
                 $handle = fopen($filename, 'rb');
                 $contents = fread($handle, filesize($filename));
                 fclose($handle);
+
                 return $contents;
             } else {
                 return "Error Reading File: {$filename}\n";
@@ -112,7 +115,7 @@ class Tools
     /**
      * Deletes files older than $howLong minutes in $dir matching $extPattern
      *
-     * @param int $howOld
+     * @param int    $howOld
      * @param string $dir
      * @param string $extPattern
      */
@@ -132,8 +135,8 @@ class Tools
 
     /**
      * Takes a caught Exception and makes it human readable via HTML.
-     * @param Exception $e
-     * @param string $niceMsg
+     * @param  Exception $e
+     * @param  string    $niceMsg
      * @return string
      */
 
@@ -149,6 +152,7 @@ class Tools
             $errorMsg .= "Line: " . $e->getLine() . "\n";
             $errorMsg .= "<pre>StackTrace:\n" . print_r($e->getTraceAsString(), true) . "</pre>";
         }
+
         return $errorMsg;
     }
 
@@ -156,9 +160,9 @@ class Tools
      * This method needs to never be called in production.
      * In fact it should probably be either commented out or deleted prior to production.
      *
-     * @param mixed $var
+     * @param mixed  $var
      * @param string $name
-     * @param bool $echo
+     * @param bool   $echo
      */
     public static function debug($var, $name = 'DEBUG', $echo = true)
     {
@@ -167,6 +171,7 @@ class Tools
             if ($echo) {
                 echo $output;
             }
+
             return $output;
         } else {
             return null;
@@ -188,6 +193,7 @@ class Tools
         }
 
         # Typecast to (object) will automatically convert array -> stdClass
+
         return (object) $array;
     }
 }

@@ -13,13 +13,13 @@ use Inflection\Inflection;
 class VanillaModel
 {
     protected $pModel;
-    
+
     public function __construct(Inflection $inflect)
     {
         $this->pLimit = PAGINATE_LIMIT;
         $this->pModel = get_class($this);
     }
-    
+
     public function __destruct()
     {
     }
