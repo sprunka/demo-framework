@@ -79,6 +79,10 @@ function callHook($url, array $default, array $routing, Inflection $inflection)
 
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
 
+    if (class_exists($controllerName) === false) {
+        return http404('error/http404', $default, $routing, $inflection);
+    }
+
     $dispatch = new $controllerName($controller, $action, $inflection);
 
     if ((int) method_exists($controllerName, $action)) {
@@ -86,7 +90,14 @@ function callHook($url, array $default, array $routing, Inflection $inflection)
         call_user_func_array(array ($dispatch, $action), $queryString);
         call_user_func_array(array ($dispatch, "afterAction"), $queryString);
     } else {
-        /* Error Generation Code Here */
-        //FIXME: Yeah, I have no error handling.
+        return http404('error/http404', $default, $routing, $inflection);
     }
+}
+
+/**
+ * Issues HTTP 404 header
+ */
+function http404($url = 'error/http404', array $default = array(), array $routing = array(), Inflection $inflection)
+{
+    callHook($url, $default, $routing, $inflection);
 }
