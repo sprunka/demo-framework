@@ -1,0 +1,23 @@
+{
+    "name": "sprunka/demo-framework",
+    "description": "A very lightweight MVC framework originally crafted from a tutorial.",
+    "license": "CC-BY-SA",
+    "authors": [
+        {
+            "name": "Sean Prunka",
+            "homepage": "http://about.me/seanprunka",
+            "role": "Creator"
+        }
+    ],
+    "keywords": ["framework", "mvc", "lightweight"],
+    "require": {
+        "php": ">=5.3.14"
+    },
+    "autoload": {
+        "psr-0":
+            {
+                "DEMO": "library/",
+                "Inflection": "vendor/"
+        }
+    }
+}

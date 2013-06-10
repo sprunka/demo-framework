@@ -1,5 +1,8 @@
 <?php
+
 namespace DEMO\Framework;
+
+use Inflection\Inflection;
 
 /**
  * Base Class for all Models
@@ -10,14 +13,13 @@ namespace DEMO\Framework;
 class VanillaModel
 {
     protected $pModel;
-    
-    public function __construct()
+
+    public function __construct(Inflection $inflect)
     {
-        global $inflect;
         $this->pLimit = PAGINATE_LIMIT;
         $this->pModel = get_class($this);
     }
-    
+
     public function __destruct()
     {
     }

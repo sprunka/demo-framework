@@ -6,7 +6,7 @@
 	RewriteCond %{REQUEST_FILENAME} !-d
 	 
 	# Rewrite all other URLs to index.php/URL
-	RewriteRule ^(.*)$ /demo/index.php?url=$1 [PT,NC,L]
+	RewriteRule ^(.*)$ /index.php?url=$1 [PT,NC,L]
 
 </IfModule>
 

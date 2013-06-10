@@ -14,7 +14,7 @@ define('PROJECT_NAME', 'Demo Framework');
 //Name of Application
 define('PRODUCT_NAME', 'sample');
 //
-define('TMP_PATH','C:' . DS . 'Users' . DS . 'prunkas' . DS . 'Documents' . DS . 'GitHub' . DS . 'demo-framework' . DS . 'tmp');
+define('TMP_PATH', ROOT . DS . 'tmp');
 //Footer message
 define(
     'FOOTER_MESSAGE',

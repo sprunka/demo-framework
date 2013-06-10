@@ -1,8 +1,7 @@
 <?php
+
 use DEMO\Application\Controllers;
-use DEMO\Framework;
-use DEMO\Tools;
-use DEMO\Application\Models;
+use Inflection\Inflection;
 
 /** Check if environment is development and display and/or log errors accortdingly. **/
 function setReporting()
@@ -23,18 +22,22 @@ function setReporting()
 /** Secondary Call Function **/
 function performAction($controller, $action, $queryString = null, $render = 0)
 {
-
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
     $dispatch = new $controllerName($controller, $action);
     $dispatch->render = $render;
+
     return call_user_func_array(array ($dispatch, $action), $queryString);
 }
 
-/** Routing **/
-function routeURL($url)
+/**
+ * Routing
+ *
+ * @param string $url Current url
+ * @param array $routing Array with regex pattern and replacement
+ * @return string Transformed url
+ */
+function routeURL($url, $routing)
 {
-    global $routing;
-
     foreach ($routing as $pattern => $result) {
         if (preg_match($pattern, $url)) {
             return preg_replace($pattern, $result, $url);
@@ -44,19 +47,23 @@ function routeURL($url)
     return ($url);
 }
 
-/** Main Call Function **/
-function callHook()
+/**
+ * Main Call Function
+ *
+ * @param string $url
+ * @param array $default
+ * @param array $routing
+ * @param Inflection $inflection
+ */
+function callHook($url, array $default, array $routing, Inflection $inflection)
 {
-    global $url;
-    global $default;
-
     $queryString = array ();
 
     if (!isset($url)) {
         $controller = $default['controller'];
         $action = $default['action'];
     } else {
-        $url = routeURL($url);
+        $url = routeURL($url, $routing);
         $urlArray = array ();
         $urlArray = explode("/", $url);
         $controller = $urlArray[0];
@@ -72,30 +79,25 @@ function callHook()
 
     $controllerName = '\\DEMO\\Application\\Controllers\\' . ucfirst($controller) . 'Controller';
 
-    $dispatch = new $controllerName($controller, $action);
+    if (class_exists($controllerName) === false) {
+        return http404('error/http404', $default, $routing, $inflection);
+    }
+
+    $dispatch = new $controllerName($controller, $action, $inflection);
 
     if ((int) method_exists($controllerName, $action)) {
         call_user_func_array(array ($dispatch, "beforeAction"), $queryString);
         call_user_func_array(array ($dispatch, $action), $queryString);
         call_user_func_array(array ($dispatch, "afterAction"), $queryString);
     } else {
-        /* Error Generation Code Here */
-        //FIXME: Yeah, I have no error handling.
+        return http404('error/http404', $default, $routing, $inflection);
     }
 }
 
-/** Autoload any classes that are required **/
-function __autoload($className)
+/**
+ * Issues HTTP 404 header
+ */
+function http404($url = 'error/http404', array $default = array(), array $routing = array(), Inflection $inflection)
 {
-    $className = ltrim($className, '\\');
-    $fileName = 'library' . DS;
-    $namespace = '';
-    if ($lastNsPos = strripos($className, '\\')) {
-        $namespace = substr($className, 0, $lastNsPos);
-        $className = substr($className, $lastNsPos + 1);
-        $fileName = str_replace('\\', DS, $namespace) . DS;
-    }
-    $fileName .= str_replace('_', DS, $className) . '.php';
-
-    require $fileName;
+    callHook($url, $default, $routing, $inflection);
 }
