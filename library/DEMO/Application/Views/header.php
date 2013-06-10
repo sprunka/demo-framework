@@ -16,9 +16,10 @@ echo PROJECT_NAME . " - " . PRODUCT_NAME;
         <div id="secondbox" class="portlet">
             <h5>Navigation</h5>
             <div class="pBody">
-                <ul id="secondbox-list">
-                    <li>Unordered List Of Links</li>
-                </ul>
+<?php
+$menu = new \DEMO\Framework\View\Template('nav', 'menu');
+$menu->render(DONT_RENDER_HEADER);
+?>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <?php
 namespace DEMO\Application\Controllers;
 
-use DEMO\Framework\VanillaController as VanillaController;
+use DEMO\Framework\Controller\VanillaController as VanillaController;
 
 /**
  * Error Controller

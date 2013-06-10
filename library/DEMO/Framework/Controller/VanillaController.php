@@ -1,7 +1,8 @@
 <?php
 
-namespace DEMO\Framework;
+namespace DEMO\Framework\Controller;
 
+use \DEMO\Framework\View\Template;
 use DEMO\Application\Models;
 use Inflection\Inflection;
 

@@ -1,5 +1,5 @@
 <?php
-namespace DEMO\Framework;
+namespace DEMO\Framework\View;
 
 use DEMO\Tools\Tools as Tools;
 use DEMO\Tools\HTML as HTML;

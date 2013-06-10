@@ -1,6 +1,6 @@
 <?php
 
-namespace DEMO\Framework;
+namespace DEMO\Framework\Model;
 
 use Inflection\Inflection;
 

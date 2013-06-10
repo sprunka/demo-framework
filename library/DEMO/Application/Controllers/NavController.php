@@ -2,14 +2,13 @@
 namespace DEMO\Application\Controllers;
 
 use DEMO\Framework\Controller\VanillaController as VanillaController;
-
 /**
- * Sample Controller for Hello
+ * Sample Controller for Navigation Menu
  * @author Sean Prunka
  * @version 1.0
  *
  */
-class HelloController extends VanillaController
+class NavController extends VanillaController
 {
 
     /**
@@ -17,19 +16,19 @@ class HelloController extends VanillaController
      */
     public function beforeAction()
     {
-        $this->set('title', 'Hello World');
-        $this->set('subtitle', '');
     }
 
     /**
-     * This is the world method of the Hello Controller.
-     * This is the method that will be called when you visit /hello/world
+     * This is the menu method of the Nav Controller.
+     * This is the method that will be called when you visit /Nav/menu
      */
-    public function world()
+    public function menu()
     {
+        $this->set('renderHeader', DONT_RENDER_HEADER);
     }
 
     public function afterAction()
     {
     }
+
 }

@@ -9,4 +9,5 @@ $irregularWords = array(
 
 Used for words that either do not have regular pluralizations, or that you wish to handle via a special case.
  **/
-$irregularWords = array ('hello' => 'hello');
+$irregularWords = array ('hello' => 'hello','nav' => 'nav','error' => 'error');
+//$uncountable = array('hello','error','nav');
